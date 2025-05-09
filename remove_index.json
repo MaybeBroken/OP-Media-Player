@@ -1,0 +1,9 @@
+{
+    "removeList": [
+        "Main.py",
+        "OP Media Player.exe",
+        "__YOUTUBEDOWNLOADER.py",
+        "src/*",
+        "po-token-generator/*"
+    ]
+}
