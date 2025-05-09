@@ -29,6 +29,8 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 # execute the Main.py script in the current directory
 
 # Execute the updater.py script and wait for it to finish
-os.system("python3 updater.py --name \"updater.py\" --version 0.0.1 --file-index-path remove_index.json")
+os.system(
+    'python3 updater.py --name "OP Media Player" --version 0.0.1 --file-index-path remove_index.json'
+)
 
 os.system("python3 Main.py")

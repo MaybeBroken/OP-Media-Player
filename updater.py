@@ -6,13 +6,18 @@ from colorama import init, Fore, Style
 from time import sleep
 from json import loads
 
-userAppData = os.getenv("APPDATA")
+if sys.platform == "win32":
+    userAppData = os.getenv("APPDATA")
+elif sys.platform == "linux":
+    userAppData = os.path.expanduser("~/.local/share")
+elif sys.platform == "darwin":
+    userAppData = os.path.expanduser("~/Library/Application Support")
 appId = "MaybeBroken-Software-Updater"
 
-if not os.path.exists(userAppData + "\\" + appId):
-    os.makedirs(userAppData + "\\" + appId)
+if not os.path.exists(userAppData + os.sep + appId):
+    os.makedirs(userAppData + os.sep + appId)
 
-os.chdir(userAppData + "\\" + appId)
+os.chdir(userAppData + os.sep + appId)
 
 init()
 
@@ -104,6 +109,7 @@ class get_args:
 if __name__ == "__main__":
     args = get_args()
     print(f"{Fore.LIGHTYELLOW_EX}Checking for updates...{Style.RESET_ALL}")
+    print(f"{Fore.LIGHTYELLOW_EX}Fetching packages from server...{Style.RESET_ALL}")
     packages = get_packages()
     package_index = build_package_index(packages)
     print(
@@ -130,6 +136,11 @@ if __name__ == "__main__":
             else:
                 print(f"{Fore.LIGHTGREEN_EX}No update found.{Style.RESET_ALL}")
                 exit(0)
+        else:
+            print(f"{Fore.RED}Package name not found.{Style.RESET_ALL}")
+            exit(1)
+    if downloadedFileName is None:
+        exit(f"{Fore.RED}No downloaded file name found.{Style.RESET_ALL}")
     if os.path.exists(downloadedFileName):
         print(f"{Fore.LIGHTYELLOW_EX}Installing [{args.name}]...{Style.RESET_ALL}")
         if os.path.exists(args.file_index_path):
@@ -141,7 +152,7 @@ if __name__ == "__main__":
                     os.remove(file)
                 else:
                     print(f"{Fore.RED}File {file} does not exist.{Style.RESET_ALL}")
-            os.chdir(userAppData + "\\" + appId)
+            os.chdir(userAppData + os.sep + appId)
             shutil.unpack_archive(
                 downloadedFileName,
                 os.path.abspath(os.path.dirname(args.file_index_path)),
