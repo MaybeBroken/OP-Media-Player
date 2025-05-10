@@ -5,7 +5,7 @@ OutFile "OP Media Player Installer.exe"
 RequestExecutionLevel user
 
 # Define the installation directory in the user's local application data folder
-InstallDir "$APPDATA\OP Media Player"
+InstallDir "$APPDATA\OP-Media-Player"
 
 # Define the section for installation
 Section "Install"

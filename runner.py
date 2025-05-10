@@ -9,7 +9,7 @@ elif sys.platform == "linux":
     userAppData = os.path.expanduser("~/.local/share")
 elif sys.platform == "darwin":
     userAppData = os.path.expanduser("~/Library/Application Support")
-appId = "OP Media Player"
+appId = "OP-Media-Player"
 
 os.chdir(os.path.join(userAppData, appId))
 print("Current working directory:", os.path.abspath(os.getcwd()))
@@ -20,7 +20,6 @@ atexit.register(
             "Exiting... Please wait a moment for the application to close completely."
         ),
         sleep(3),
-        sys.exit(1),
     ]
 )
 
@@ -60,11 +59,11 @@ try:
         with open("ver", "w") as f:
             f.write("0.0.0")
     version = os.system(
-        f'python3 "{os.path.abspath("./updater.py")}"\
-    --name "OP Media Player"\
-    --version {open(os.path.abspath("ver")).read().strip()}\
-    --file-index-path "{os.path.abspath("remove_index.json")}"\
-    --root-path "{os.path.abspath(".")}/"'
+        f'python3 updater.py\
+ --name "OP Media Player"\
+ --version {open("ver").read().strip()}\
+ --file-index-path {os.path.abspath("remove_index.json")}\
+ --root-path "."'
     )
     os.system("python3 Main.py")
 except:
