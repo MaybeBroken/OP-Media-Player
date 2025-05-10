@@ -1,11 +1,19 @@
 import os
 import sys
 import shutil
-import urllib.request
-from colorama import init, Fore, Style
 from time import sleep
 from json import loads
 import glob
+try:
+    import urllib.request
+except ImportError as e:
+    os.system("python3 -m pip install urllib")
+    import urllib.request
+try:
+    from colorama import init, Fore, Style
+except ImportError as e:
+    os.system("python3 -m pip install colorama")
+    from colorama import init, Fore, Style
 
 if sys.platform == "win32":
     userAppData = os.getenv("APPDATA")

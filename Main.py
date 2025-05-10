@@ -93,7 +93,8 @@ except ImportError:
 
 try:
     from pydub import AudioSegment
-except ImportError:
+except ImportError or ModuleNotFoundError:
+    os.system("python3 -m pip install audioop-lts")
     install_and_import("pydub")
 
 try:

@@ -1,1 +1,2 @@
+-f android
 panda3d
