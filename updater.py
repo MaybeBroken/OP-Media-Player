@@ -5,6 +5,7 @@ import urllib.request
 from colorama import init, Fore, Style
 from time import sleep
 from json import loads
+import glob
 
 if sys.platform == "win32":
     userAppData = os.getenv("APPDATA")
@@ -147,11 +148,13 @@ if __name__ == "__main__":
             os.chdir(os.path.dirname(args.file_index_path))
             with open(args.file_index_path, "r") as f:
                 file_index = loads(f.read())
-            for file in file_index["removeList"]:
-                if os.path.exists(file):
-                    os.remove(file)
-                else:
-                    print(f"{Fore.RED}File {file} does not exist.{Style.RESET_ALL}")
+            for pattern in file_index["removeList"]:
+                for file in glob.glob(pattern, recursive=True):
+                    if os.path.exists(file):
+                        os.remove(file)
+                        print(f"{Fore.LIGHTGREEN_EX}Removed {file}.{Style.RESET_ALL}")
+                    else:
+                        print(f"{Fore.RED}File {file} does not exist.{Style.RESET_ALL}")
             os.chdir(userAppData + os.sep + appId)
             shutil.unpack_archive(
                 downloadedFileName,
