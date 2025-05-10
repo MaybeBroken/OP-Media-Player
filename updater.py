@@ -79,6 +79,7 @@ def exit(message: str = None):
     print(message) if message else None
     cleanup()
     print(f"{Fore.RED}Exiting...{Style.RESET_ALL}")
+    sleep(3)
     sys.exit(1)
 
 

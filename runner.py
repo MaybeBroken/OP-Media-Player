@@ -1,7 +1,20 @@
 import os
 import sys
 from time import sleep
-import platform
+import atexit
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+print("Current working directory:", os.path.abspath(os.getcwd()))
+
+atexit.register(
+    lambda: [
+        print(
+            "Exiting... Please wait a moment for the application to close completely."
+        ),
+        sleep(3),
+        sys.exit(1),
+    ]
+)
 
 try:
     is_python_installed = os.system("python3 --version") == 0
@@ -20,6 +33,7 @@ try:
             os.system("open https://www.python.org/downloads/")
         else:
             print("Python is not installed, please install it manually.")
+            input("Press Enter to exit...")
             sys.exit(1)
 
     attempts = 0
@@ -31,33 +45,20 @@ try:
 
     if not is_python_installed:
         print("Python installation check exceeded maximum attempts. Exiting.")
+        input("Press Enter to exit...")
         sys.exit(1)
-    # os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    if not os.path.exists("./updater.py"):
-        print("Updater script not found. Please ensure it is in the same directory.")
-        sleep(2)
-        sys.exit(1)
-    if not os.path.exists("./remove_index.json"):
-        print("Remove index file not found. Please ensure it is in the same directory.")
-        sleep(2)
-        sys.exit(1)
-    if not os.path.exists("./ver"):
-        print("Version file not found. Please ensure it is in the same directory.")
-        sleep(2)
-        sys.exit(1)
-    if not os.path.exists("./Main.py"):
-        print("Main script not found. Please ensure it is in the same directory.")
-        sleep(2)
-        sys.exit(1)
+    if not os.path.exists("ver"):
+        print("Version file not found. Creating a new one.")
+        with open("ver", "w") as f:
+            f.write("0.0.0")
     version = os.system(
         f'python3 {os.path.abspath("./updater.py")}\
     --name "OP Media Player"\
-    --version {open(os.path.abspath("./ver")).read().strip()}\
-    --file-index-path {os.path.abspath("./remove_index.json")}\
+    --version {open(os.path.abspath("ver")).read().strip()}\
+    --file-index-path {os.path.abspath("remove_index.json")}\
     --root-path "{os.path.abspath(".")}/"'
     )
     os.system("python3 Main.py")
-except Exception as e:
-    print(f"An error occurred: {e}")
-    sleep(2)
+except:
+    sleep(3)
     sys.exit(1)
