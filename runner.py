@@ -33,6 +33,15 @@ try:
         print("Python installation check exceeded maximum attempts. Exiting.")
         sys.exit(1)
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    if not os.path.exists("updater.py"):
+        print("Updater script not found. Please ensure it is in the same directory.")
+        sys.exit(1)
+    if not os.path.exists("remove_index.json"):
+        print("Remove index file not found. Please ensure it is in the same directory.")
+        sys.exit(1)
+    if not os.path.exists("ver"):
+        print("Version file not found. Please ensure it is in the same directory.")
+        sys.exit(1)
     version = os.system(
         f'python3 {os.path.abspath("./updater.py")}\
     --name "OP Media Player"\
@@ -42,7 +51,6 @@ try:
     )
     os.system("python3 Main.py")
 except Exception as e:
-    e.with_traceback()
     print(f"An error occurred: {e}")
     sleep(2)
     sys.exit(1)
