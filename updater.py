@@ -151,8 +151,21 @@ if __name__ == "__main__":
             for pattern in file_index["removeList"]:
                 for file in glob.glob(pattern, recursive=True):
                     if os.path.exists(file):
-                        os.remove(file)
-                        print(f"{Fore.LIGHTGREEN_EX}Removed {file}.{Style.RESET_ALL}")
+                        try:
+                            if os.path.isdir(file):
+                                shutil.rmtree(file)
+                                print(
+                                    f"{Fore.LIGHTGREEN_EX}Removed {file}.{Style.RESET_ALL}"
+                                )
+                            else:
+                                os.remove(file)
+                                print(
+                                    f"{Fore.LIGHTGREEN_EX}Removed {file}.{Style.RESET_ALL}"
+                                )
+                        except Exception as e:
+                            print(
+                                f"{Fore.RED}Error removing {file}: {e}{Style.RESET_ALL}"
+                            )
                     else:
                         print(f"{Fore.RED}File {file} does not exist.{Style.RESET_ALL}")
             os.chdir(userAppData + os.sep + appId)
