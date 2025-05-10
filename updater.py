@@ -4,11 +4,8 @@ import shutil
 from time import sleep
 from json import loads
 import glob
-try:
-    import urllib.request
-except ImportError as e:
-    os.system("python3 -m pip install urllib")
-    import urllib.request
+import urllib.request
+
 try:
     from colorama import init, Fore, Style
 except ImportError as e:
