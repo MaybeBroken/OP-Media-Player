@@ -20,10 +20,16 @@ else:
         print("Python is not installed, please install it manually.")
         sys.exit(1)
 
-while not is_python_installed:
+attempts = 0
+while not is_python_installed and attempts < 12:
     print("Waiting for Python to be installed...")
-    is_python_installed = os.system("python3 --version") == 0
+    is_python_installed = os.system("python3 --version >nul 2>&1") == 0
     sleep(5)
+    attempts += 1
+
+if not is_python_installed:
+    print("Python installation check exceeded maximum attempts. Exiting.")
+    sys.exit(1)
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 os.system(
     f'python3 updater.py --name "OP Media Player" --version 0.0.1 --file-index-path {os.path.abspath("./remove_index.json")}'
