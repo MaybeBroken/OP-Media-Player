@@ -84,7 +84,7 @@ def exit(message: str = None):
 
 def print_args():
     print(
-        f"{Fore.LIGHTYELLOW_EX}Usage: [--name <name> --version <version> --file-index-path <path>]{Style.RESET_ALL}"
+        f"{Fore.LIGHTYELLOW_EX}Usage: [--name <name> --version <version> --file-index-path <path> --root-path <path>]{Style.RESET_ALL}"
     )
 
 
@@ -105,6 +105,11 @@ class get_args:
         else:
             print_args()
             exit(f"{Fore.RED}No file index path provided.{Style.RESET_ALL}")
+        if "--root-path" in sys.argv:
+            self.root_path = sys.argv[sys.argv.index("--root-path") + 1]
+        else:
+            print_args()
+            exit(f"{Fore.RED}No root path provided.{Style.RESET_ALL}")
 
 
 if __name__ == "__main__":
@@ -122,6 +127,8 @@ if __name__ == "__main__":
         exit(f"{Fore.RED}No version provided.{Style.RESET_ALL}")
     if args.file_index_path == "":
         exit(f"{Fore.RED}No file index path provided.{Style.RESET_ALL}")
+    if args.root_path == "":
+        exit(f"{Fore.RED}No root path provided.{Style.RESET_ALL}")
     downloadedFileName = None
     for package in package_index:
         if package.name == args.name:
@@ -134,6 +141,7 @@ if __name__ == "__main__":
                 download_file(package.url, downloadedFileName)
 
                 print(f"{Fore.LIGHTGREEN_EX}Download complete!{Style.RESET_ALL}")
+                version = package.version
             else:
                 print(f"{Fore.LIGHTGREEN_EX}No update found.{Style.RESET_ALL}")
                 exit(0)
@@ -175,7 +183,13 @@ if __name__ == "__main__":
             )
             print(f"{Fore.LIGHTGREEN_EX}Installation complete!{Style.RESET_ALL}")
             os.remove(downloadedFileName)
-            exit()
+            # return to the original directory
+            os.chdir(args.root_path)
+            with open(
+                os.path.abspath(os.path.dirname(args.file_index_path)) + os.sep + "ver",
+                "w",
+            ) as f:
+                f.write(version)
         else:
             exit(f"{Fore.RED}File index path does not exist.{Style.RESET_ALL}")
     else:

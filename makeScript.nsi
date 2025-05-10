@@ -18,6 +18,7 @@ Section "Install"
     File "OP Media Player.exe"
     File "Main.py"
     File "__YOUTUBEDOWNLOADER.py"
+    File "updater.py"
     File /r "src"
     File /r "po-token-generator"
 
