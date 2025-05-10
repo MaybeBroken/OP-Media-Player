@@ -5,7 +5,7 @@ OutFile "OP Media Player Installer.exe"
 RequestExecutionLevel user
 
 # Define the installation directory in the user's local application data folder
-InstallDir "$LOCALAPPDATA\OP Media Player"
+InstallDir "$APPDATA\OP Media Player"
 
 # Define the section for installation
 Section "Install"
@@ -19,6 +19,7 @@ Section "Install"
     File "Main.py"
     File "__YOUTUBEDOWNLOADER.py"
     File "updater.py"
+    File "remove_index.json"
     File /r "src"
     File /r "po-token-generator"
 

@@ -3,7 +3,15 @@ import sys
 from time import sleep
 import atexit
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+if sys.platform == "win32":
+    userAppData = os.getenv("APPDATA")
+elif sys.platform == "linux":
+    userAppData = os.path.expanduser("~/.local/share")
+elif sys.platform == "darwin":
+    userAppData = os.path.expanduser("~/Library/Application Support")
+appId = "OP Media Player"
+
+os.chdir(os.path.join(userAppData, appId))
 print("Current working directory:", os.path.abspath(os.getcwd()))
 
 atexit.register(
@@ -52,10 +60,10 @@ try:
         with open("ver", "w") as f:
             f.write("0.0.0")
     version = os.system(
-        f'python3 {os.path.abspath("./updater.py")}\
+        f'python3 "{os.path.abspath("./updater.py")}"\
     --name "OP Media Player"\
     --version {open(os.path.abspath("ver")).read().strip()}\
-    --file-index-path {os.path.abspath("remove_index.json")}\
+    --file-index-path "{os.path.abspath("remove_index.json")}"\
     --root-path "{os.path.abspath(".")}/"'
     )
     os.system("python3 Main.py")
