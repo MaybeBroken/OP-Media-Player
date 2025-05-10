@@ -32,15 +32,22 @@ try:
     if not is_python_installed:
         print("Python installation check exceeded maximum attempts. Exiting.")
         sys.exit(1)
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    if not os.path.exists("updater.py"):
+    # os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    if not os.path.exists("./updater.py"):
         print("Updater script not found. Please ensure it is in the same directory.")
+        sleep(2)
         sys.exit(1)
-    if not os.path.exists("remove_index.json"):
+    if not os.path.exists("./remove_index.json"):
         print("Remove index file not found. Please ensure it is in the same directory.")
+        sleep(2)
         sys.exit(1)
-    if not os.path.exists("ver"):
+    if not os.path.exists("./ver"):
         print("Version file not found. Please ensure it is in the same directory.")
+        sleep(2)
+        sys.exit(1)
+    if not os.path.exists("./Main.py"):
+        print("Main script not found. Please ensure it is in the same directory.")
+        sleep(2)
         sys.exit(1)
     version = os.system(
         f'python3 {os.path.abspath("./updater.py")}\
