@@ -26,6 +26,6 @@ while not is_python_installed:
     sleep(5)
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 os.system(
-    'python3 updater.py --name "OP Media Player" --version 0.0.1 --file-index-path ./remove_index.json'
+    f'python3 updater.py --name "OP Media Player" --version 0.0.1 --file-index-path {os.path.abspath("./remove_index.json")}'
 )
 os.system("python3 Main.py")
