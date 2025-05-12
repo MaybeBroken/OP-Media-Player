@@ -10,7 +10,8 @@ elif sys.platform == "linux":
 elif sys.platform == "darwin":
     userAppData = os.path.expanduser("~/Library/Application Support")
 appId = "OP-Media-Player"
-
+if not os.path.exists(os.path.join(userAppData, appId)):
+    os.makedirs(os.path.join(userAppData, appId))
 os.chdir(os.path.join(userAppData, appId))
 print("Current working directory:", os.path.abspath(os.getcwd()))
 
