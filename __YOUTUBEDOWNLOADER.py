@@ -91,7 +91,6 @@ for s in data[1:-1]:
 
 if not os.path.exists("youtubeDownloader"):
     os.mkdir("youtubeDownloader")
-os.chdir("youtubeDownloader")
 with open("spoofedToken.json", "w") as f:
     f.write(
         '{\n\t"visitorData":"' + visitorData + '",\n\t"poToken":"' + poToken + '"\n}'
@@ -1033,6 +1032,7 @@ if __name__ == "__main__":
                     f"{Color.YELLOW}Thread {thread.name} still running{Color.RESET}, waiting for it to finish..."
                 )
                 thread.join()
+        os.chdir(os.path.dirname(__file__))
 else:
     GLOBAL_NOTIFY = []
 
